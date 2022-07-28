@@ -8,6 +8,18 @@
 	</select>
 	
 	<insert id="insert" parameterType="com.example.dto.board">
-			insert into board (bno,title,content,writer,viewcnt) values(nextval('boardSeq'),#{title},#{content},#{write},#{viewcnt});
+			insert into board (bno,title,content,writer,viewcnt) values(nextval('boardSeq'),#{title},#{content},#{writer},0);
 	</insert>
+	
+	<update id="update" parameterType="com.example.dto.board">
+		update board set 
+			title=#{title},
+			content=#{content},
+			writer=#{writer}
+			where bno=#{bno};
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from board where bno=${seq};
+	</delete>	
 </mapper>

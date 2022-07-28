@@ -25,8 +25,8 @@ public class boardServiceImpl implements boardService{
 	}
 
 	@Override
-	public int update(int seq,board board) {
-		return mapper.update(seq,board);
+	public int update(board board) {
+		return mapper.update(board);
 	}
 
 	@Override

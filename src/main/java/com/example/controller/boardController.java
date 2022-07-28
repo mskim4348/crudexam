@@ -21,39 +21,34 @@ public class boardController {
 	public String listboard() {
 		List<board> board=boardservice.list();
 		
-		for(int i=0;i<board.size();i++) {
-			System.out.println(board.get(i).getBno());
-			System.out.println(board.get(i).getTitle());
-		}
-		
 		return "board";
 	}
 	
 	@GetMapping("/insert")
 	public String insertBoard() {
-		board board=null;
-		board.setBno("");
+		board board=new board();
 		board.setContent("a");
 		board.setTitle("b");
 		board.setWriter("c");
-		board.setViewcnt("0");
 		boardservice.insert(board);
 		return "board";
 	}
 	
 	@GetMapping("/update")
 	public String updateBoard() {
+		board board=new board();
 		int seq=1;
-		board board=null;
-		board.setContent("");
-		board.setTitle("");
-		board.setWriter("");
-		boardservice.update(seq,board);
-		return "test";
+		board.setBno(seq);
+		board.setContent("bbb");
+		board.setTitle("ccc");
+		board.setWriter("ddd");
+		boardservice.update(board);
+		return "board";
 	}
 	
 	@GetMapping("/delete")
 	public String deleteBoard() {
-		return "home";
+		boardservice.delete(1);
+		return "board";
 	}
 }

@@ -8,9 +8,9 @@ import lombok.Setter;
 
 @Data
 public class board implements Serializable{
-	private String bno;
+	private int bno;
 	private String title;
 	private String content;
 	private String writer;
-	private String viewcnt;
+	private int viewcnt;
 }
