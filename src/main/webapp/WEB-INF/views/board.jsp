@@ -15,8 +15,8 @@
 	<div class="container mt-3">
 		<h2>Button Styles</h2>
 		<button type="button" class="btn btn-primary" id="btn1">Basic</button>
-		<button type="button" class="btn btn-secondary" onclick="btnclick2()" id="btn2">Primary</button>
-		<button type="button" class="btn btn-secondary" onclick="btnclick3()">Secondary</button>
+		<button type="button" class="btn btn-secondary" onclick="btnclick2()" id="btn2">board_read</button>
+		<button type="button" class="btn btn-secondary" onclick="btnclick3()" id="btn3">hashMap_read</button>
 		<button type="button" class="btn btn-secondary">Success</button>
 		<button type="button" class="btn btn-secondary">Info</button>
 		<button type="button" class="btn btn-secondary">Warning</button>
@@ -72,15 +72,16 @@
 			fetch('/Ajaxlist')
 // 			  .then((response) => response.text())
 			  .then((response) => response.json())
-// 			  .then((data) => jsondata(data))
-			  .then((data) => console.log(data))
+			  .then((data) => jsondata(data))
+// 			  .then((data) => console.log(data))
 			  .catch((error) => console.log("error:", error));
 		}
 		function btnclick3() {
 // 			{fetch("http://192.168.90.53:4000/game/?email=" + encodeURIComponent('adicool2294@gmail.com')
 			fetch('/jointest?seq='+encodeURIComponent('2'),{method:"GET"})
 			  .then((response) => response.json())
-			  .then((data) => console.log(data))
+// 			  .then((data) => console.log(data))
+			  .then((data) => test(data))
 			  .catch((error) => console.log("error:", error));
 		}
 		function jsondata(data){
@@ -108,7 +109,39 @@
 			}
 			out += '</tbody>';
 			out += '</table>';
+			
 			document.getElementById('btn_read').innerHTML = out;
 			document.getElementById('btn2').className = "btn btn-primary";
+		}
+		
+		function test(data){
+			let key1=Object.values(data);
+			let key2=Object.keys(key1[0]);
+			let out = "";
+			out += '<table class="table">';
+			out += '<thead>';
+			out += '<tr>';
+			//HashMap 테이블 컬럼 숫자만큼 반복
+			for(let i=0;i<key2.length;i++){
+				out += '<th>'+key2[i]+'</th>';
+			}
+			out += '</tr>';
+			out += '<tbody>';
+			//HashMap 테이블 데이터 숫자만큼 반복
+			for(let i=0;i<key1.length;i++){//저장된 map 개수
+			out += '<tr>';
+				key2=Object.values(key1[i]);
+				for(let j=0;j<Object.keys(key1[i]).length;j++){//저장된 map에서 value값 개수
+// 					console.log("i:"+i+" "+key2[j]);				
+					out += '<td>'+key2[j]+'</td>';
+				}
+			}
+			out += '</tr>';
+			out += '</tbody>';
+			out += '</table>';
+			
+			document.getElementById('btn_read').innerHTML = out;
+			document.getElementById('btn3').className = "btn btn-primary";
+// 			let key2=Object.getOwnPropertyNames(data);
 		}
 </script>
