@@ -22,4 +22,8 @@
 	<delete id="delete" parameterType="int">
 		delete from board where bno=${seq};
 	</delete>	
+
+	<select id="jointest" resultType="map">
+		select a.bno, name from board a right join member b on a.memberBno=b.bno;
+	</select>
 </mapper>

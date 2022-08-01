@@ -1,7 +1,9 @@
 package com.example.controller;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.dto.board;
 import com.example.service.boardServiceImpl;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 @RestController
 public class restController {
@@ -27,19 +31,44 @@ public class restController {
 
 	@GetMapping("/Ajaxlist")
 	private JSONObject list() {
-		List<board> board=new ArrayList<board>();
-		board=boardservice.list();
-		Map<String, Object> map=new HashMap<String, Object>();
-		for(int i=0;i<board.size();i++) {
-			map.put(""+i, board.get(i));
+		List<board> board = new ArrayList<board>();
+		board = boardservice.list();
+		Map<String, Object> map = new HashMap<String, Object>();
+		for (int i = 0; i < board.size(); i++) {
+			map.put("" + i, board.get(i));
 		}
-		JSONObject json=new JSONObject(map);
+		for (Map.Entry<String, Object> entry:map.entrySet()) {
+			String key = entry.getKey();
+			Object value = entry.getValue();
+			System.out.println("key: " + key + " | value: " + value);
+		}
+		JSONObject json = new JSONObject(map);
 		return json;
 	}
+
 //	@GetMapping(value = "/jointest", produces = MediaType.TEXT_PLAIN_VALUE)
-	@RequestMapping(value="/jointest",method = RequestMethod.GET)
-	private JSONObject test(@RequestParam("seq") int seq) {
-		System.out.println("시퀀스"+seq);
-		return null;
+	@RequestMapping(value = "/jointest", method = RequestMethod.GET)
+	private JSONObject jointest(@RequestParam("seq") int seq) {
+		List<Map<String, Object>> resultMap=boardservice.jointest();
+		Map<String, Object> data=new HashMap<String, Object>();
+		Map<String, Object> list=new HashMap<String, Object>();
+		int index=0;
+		for (Map<String, Object> map : resultMap) {
+			for (Map.Entry<String, Object> entry : map.entrySet()) {
+				String key = entry.getKey();
+				Object value = entry.getValue();
+				data.put(key, value);
+//				System.out.println("cnt:"+cnt+"key: " + key + " | value: " + value);
+			}
+			list.put(""+index, data);
+			data=new HashMap<String, Object>();
+			index++;
+		}
+		JSONObject json = new JSONObject(list);
+		
+//		Gson gson = new Gson();
+//		Type resultType = new TypeToken<List<Map<String, Object>>>(){}.getType();
+//		List<Map<String, Object>> result = gson.fromJson(json, resultType);
+		return json;
 	}
 }

@@ -1,7 +1,10 @@
 package com.example.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +35,17 @@ public class boardServiceImpl implements boardService{
 	@Override
 	public int delete(int seq) {
 		return mapper.delete(seq);
+	}
+
+//	@Override
+//	public HashMap<String, Object> onelist(int seq) {
+//		Map<String, Object> map=new HashMap<String, Object>();
+//		System.out.println("22222222222");
+//		return onelist(seq);
+//	}
+	@Override
+	public List<Map<String, Object>> jointest() {
+		return mapper.jointest();
 	}
 	
 }

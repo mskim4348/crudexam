@@ -72,21 +72,20 @@
 			fetch('/Ajaxlist')
 // 			  .then((response) => response.text())
 			  .then((response) => response.json())
-			  .then((data) => jsondata(data))
+// 			  .then((data) => jsondata(data))
+			  .then((data) => console.log(data))
 			  .catch((error) => console.log("error:", error));
 		}
 		function btnclick3() {
-// 			let formData = new FormData(); 
-// 			formData.append('seq', 1);
-// 			let number={seq:1};
-			let number=1;
-			fetch('/jointest?seq='+number)
+// 			{fetch("http://192.168.90.53:4000/game/?email=" + encodeURIComponent('adicool2294@gmail.com')
+			fetch('/jointest?seq='+encodeURIComponent('2'),{method:"GET"})
 			  .then((response) => response.json())
 			  .then((data) => console.log(data))
 			  .catch((error) => console.log("error:", error));
 		}
 		function jsondata(data){
 // 			console.log(Object.keys(data).length);
+// 			console.log('key:' + key + ' / ' + 'value:' + data[key].title);
 			let out = "";
 			out += '<table class="table">';
 			out += '<thead>';
@@ -107,7 +106,6 @@
 				out += '<td>'+data[key].viewcnt+'</td>';
 				out += '</tr>';
 			}
-// 			    console.log('key:' + key + ' / ' + 'value:' + data[key].title);
 			out += '</tbody>';
 			out += '</table>';
 			document.getElementById('btn_read').innerHTML = out;
