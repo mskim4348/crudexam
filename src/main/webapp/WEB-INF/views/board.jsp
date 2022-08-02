@@ -1,10 +1,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="false"%>
+<%@ page contentType="text/html; charset=utf-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <title>Bootstrap 5 Example</title>
-<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
 <script src="/resources/js/bootstrap.bundle.min.js"></script>
@@ -14,10 +15,10 @@
 <body onload="doonload()">
 	<div class="container mt-3">
 		<h2>Button Styles</h2>
-		<button type="button" class="btn btn-primary" id="btn1">Basic</button>
+		<button type="button" class="btn btn-primary" id="btn1">테스트</button>
 		<button type="button" class="btn btn-secondary" onclick="btnclick2()" id="btn2">board_read</button>
 		<button type="button" class="btn btn-secondary" onclick="btnclick3()" id="btn3">hashMap_read</button>
-		<button type="button" class="btn btn-secondary">Success</button>
+		<button type="button" class="btn btn-secondary" onclick="btnclick4()" id="btn4">ajax_post</button>
 		<button type="button" class="btn btn-secondary">Info</button>
 		<button type="button" class="btn btn-secondary">Warning</button>
 		<button type="button" class="btn btn-secondary">Danger</button>
@@ -26,6 +27,14 @@
 		<button type="button" class="btn btn-secondary">Link</button>
 	</div>
 	<div class="container mt-5" id="btn_read" name="btn_read"></div>
+	
+	<form id="postSend" >
+		<input id='title' type="hidden" value="2"/><br> 
+		<input id='content' type='hidden' value="4"/><br> 
+		<input id='writer' type='hidden' value="2"/><br> 
+		<input id='viewcnt' type='hidden' value="4"/><br> 
+	</form>
+	
 </body>
 </html>
 
@@ -84,6 +93,34 @@
 			  .then((data) => test(data))
 			  .catch((error) => console.log("error:", error));
 		}
+		function btnclick4() {
+			let form=document.getElementById("postSend");
+// 			console.log(test.length);
+// 			console.log(test.elements[0].id);
+// 			console.log(test.elements[0].value);
+			let formdata =new FormData();
+			
+			//document form 이용해서 form데이터 key,value값 추출
+			for(let i=0;i<form.length;i++){
+				formdata.append(""+form.elements[i].id, ""+form.elements[i].value);
+			}
+			
+			fetch('/postsend',{
+				method:"POST",
+			    cache: 'no-cache',
+			    body: formdata})
+			  .then((response) => response.json())
+			  .then((data) => {
+				 if(data==1){
+					 alert("insert 성공");
+				}else{
+					alert("실패");
+				}
+			  })
+// 			  .then((data) => test(data))
+			  .catch((error) => console.log("error:", error));
+		}
+
 		function jsondata(data){
 // 			console.log(Object.keys(data).length);
 // 			console.log('key:' + key + ' / ' + 'value:' + data[key].title);
@@ -144,4 +181,5 @@
 			document.getElementById('btn3').className = "btn btn-primary";
 // 			let key2=Object.getOwnPropertyNames(data);
 		}
+		
 </script>

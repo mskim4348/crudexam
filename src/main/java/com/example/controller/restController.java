@@ -45,7 +45,6 @@ public class restController {
 		JSONObject json = new JSONObject(map);
 		return json;
 	}
-
 //	@GetMapping(value = "/jointest", produces = MediaType.TEXT_PLAIN_VALUE)
 	@RequestMapping(value = "/jointest", method = RequestMethod.GET)
 	private JSONObject jointest(@RequestParam("seq") int seq) {
@@ -70,5 +69,18 @@ public class restController {
 //		Type resultType = new TypeToken<List<Map<String, Object>>>(){}.getType();
 //		List<Map<String, Object>> result = gson.fromJson(json, resultType);
 		return json;
+	}
+	
+	@PostMapping("/postsend")
+//	private int postsend(@RequestParam HashMap params){
+//		hasymap으로 받기도 가능함
+//		Map<String, String> map=params;
+//		for (Map.Entry<String, String> entry : map.entrySet()) {
+//			String key = entry.getKey();
+//			String value = entry.getValue();
+//			System.out.println("key:"+key+" value:"+value);
+//		}
+	private int postsend(board board){
+		return boardservice.insert(board);
 	}
 }
