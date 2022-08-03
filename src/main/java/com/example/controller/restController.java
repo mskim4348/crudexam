@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,6 +12,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.dto.board;
 import com.example.service.boardServiceImpl;
@@ -28,7 +32,9 @@ import com.google.gson.reflect.TypeToken;
 public class restController {
 	@Autowired
 	private boardServiceImpl boardservice;
-
+	
+	private final String uploadDir = "C:\\upload\\temp\\";
+	
 	@GetMapping("/Ajaxlist")
 	private JSONObject list() {
 		List<board> board = new ArrayList<board>();
@@ -71,7 +77,6 @@ public class restController {
 		return json;
 	}
 	
-	@PostMapping("/postsend")
 //	private int postsend(@RequestParam HashMap params){
 //		hasymap으로 받기도 가능함
 //		Map<String, String> map=params;
@@ -80,7 +85,22 @@ public class restController {
 //			String value = entry.getValue();
 //			System.out.println("key:"+key+" value:"+value);
 //		}
+	@PostMapping("/postsend")
 	private int postsend(board board){
 		return boardservice.insert(board);
+	}
+	@PostMapping("/fileUpload")
+	private int fileUpload(@RequestParam("file") MultipartFile file){
+		 if (!file.isEmpty()) {
+	            String filename = file.getOriginalFilename();
+
+	            String fullPath = uploadDir + filename;
+	            try {
+					file.transferTo(new File(fullPath));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	        }
+		return 0;
 	}
 }

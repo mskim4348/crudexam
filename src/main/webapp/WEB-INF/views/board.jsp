@@ -19,7 +19,7 @@
 		<button type="button" class="btn btn-secondary" onclick="btnclick2()" id="btn2">board_read</button>
 		<button type="button" class="btn btn-secondary" onclick="btnclick3()" id="btn3">hashMap_read</button>
 		<button type="button" class="btn btn-secondary" onclick="btnclick4()" id="btn4">ajax_post</button>
-		<button type="button" class="btn btn-secondary">Info</button>
+		<button type="button" class="btn btn-secondary" onclick="btnclick5()" id="btn5">upload</button>
 		<button type="button" class="btn btn-secondary">Warning</button>
 		<button type="button" class="btn btn-secondary">Danger</button>
 		<button type="button" class="btn btn-secondary">Dark</button>
@@ -118,6 +118,47 @@
 				}
 			  })
 // 			  .then((data) => test(data))
+			  .catch((error) => console.log("error:", error));
+		}
+		function btnclick5() {
+			let out = "";
+// 			out += "<form id='fileUpload'  action='/fileUpload'  method='post' enctype='multipart/form-data'>";
+// 			out += "<input type='hidden' id='profile' value='1'>";
+// 			out += "<input type='hidden' id='seq' value='1'>";
+// // 			out += "<input type='button' onclick='fileUpload()'>";
+// 			out += "<input type='submit'>";
+// 			out += "</form>";
+
+			out += "<form id='fileUpload'  action='/fileUpload'  method='post' enctype='multipart/form-data'>";
+// 			out += "<input type='file' name='files' accept='.gif, .jpg, .png'>";
+			out += "<input type='file' id='profile' name='profile'>";
+			out += "<input type='button' onclick='fileUpload()'>";
+// 			out += "<input type='submit'>";
+			out += "</form>";
+			
+			document.getElementById('btn_read').innerHTML = out;
+		}
+		function fileUpload(){
+			let formdata =new FormData();
+			let input=document.querySelector("#profile");
+// 			console.log(input.files[0]);
+
+			formdata.append('file',input.files[0]);
+			
+// 			console.log(formdata);
+// 			console.log(form);
+
+			fetch('/fileUpload',{
+				method:"POST",
+			    cache: 'no-cache',
+			    headers: {},
+			    body: formdata})
+// 			  .then((response) => {
+// 				   if (response.status === 200) {console.log("error1")}
+// 	               if (response.status === 400) {console.log("error2")}
+// 			  })
+			  .then((response) => response.json)
+			  .then((data) => console.log(data))
 			  .catch((error) => console.log("error:", error));
 		}
 

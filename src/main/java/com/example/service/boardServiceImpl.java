@@ -7,9 +7,11 @@ import java.util.Map;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.dto.board;
 import com.example.mapper.boardMapper;
+import com.example.util.upload;
 
 @Service
 public class boardServiceImpl implements boardService{
@@ -47,5 +49,9 @@ public class boardServiceImpl implements boardService{
 	public List<Map<String, Object>> jointest() {
 		return mapper.jointest();
 	}
-	
+	@Override
+	public int insertImage(MultipartFile file) {
+		
+		return 0;
+	}
 }
