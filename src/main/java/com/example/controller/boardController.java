@@ -61,4 +61,5 @@ public class boardController {
 		boardservice.delete(1);
 		return "board";
 	}
+
 }
