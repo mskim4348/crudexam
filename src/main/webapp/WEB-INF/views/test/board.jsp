@@ -47,7 +47,7 @@
 			<tbody>
 
 				<c:forEach items="${board}" var="board" varStatus="status">
-					<tr id="${board.bno}" bgcolor="#D9E5FF">
+					<tr id="tableID${board.bno}">
 						<th>${status.count}</th>
 <%-- 						<th><input type="text" id=writer${status.count} value=${board.writer} onchange="change(${status.count},['${board.bno},${board.writer}','${board.title}','${board.content}','${board.viewcnt}'])"></th> --%>
 <!-- 						<th><input type="text" id=title${status.count} value=${board.title} onchange="change()"></th> -->
@@ -58,12 +58,12 @@
 						<th><input type="text" name=content[] value=${board.content} onchange="change(${status.count},['${board.bno}','${board.writer}','${board.title}','${board.content}','${board.viewcnt}'])"></th>
 						<th><input type="text" name=viewcnt[] value=${board.viewcnt} onchange="change(${status.count},['${board.bno}','${board.writer}','${board.title}','${board.content}','${board.viewcnt}'])"></th>
 					</tr>
-						<input type="hidden" id=hidden${status.count} value=0>
+						<input type="hidden" name=hidden[] value=0>
+						<input type="hidden" name=bno[] value=${board.bno}>
 				</c:forEach>
-						<input type="hidden" id=test value=${fn:length(board)}>
-<!-- 						<input type="button" onclick="updateForm"> -->
 			</tbody>
 		</table>
+	 	<button type="button"  style="float: right;" class="btn btn-primary" onclick="updateForm()">update</button>
 	</div>
 	<div class="container mt-5">
 		<div class="row">
@@ -93,20 +93,84 @@
 <script type="text/javascript">
 // 	function change(writer,title,content,viewcnt) {
 	function change(seq,array) {
+		let writer=document.getElementsByName("writer[]")[seq-1].value;
+		let title=document.getElementsByName("title[]")[seq-1].value;
+		let content=document.getElementsByName("content[]")[seq-1].value;
+		let viewcnt=document.getElementsByName("viewcnt[]")[seq-1].value;
 		
-// 		console.log(document.getElementsByName('writer'));
-// var a = document.getElementsByName("hz[]")[0].value;
-		let item=document.getElementsByName("writer[]");
-// 		console.log(document.getElementById('title').value);
-// 		console.log(document.getElementById('content').value);
-// 		console.log(document.getElementById('viewcnt').value);
-// 		console.log(document.getElementById('hidden').value);
-// 		console.log(document.getElementById('test').value);
-		for(var i=0; i<item.length; i++){
-			console.log(item[i].value);
+		if(writer==array[1]&&title==array[2]&&content==array[3]&&viewcnt==array[4]){
+			document.getElementById('tableID'+array[0]).style.backgroundColor='';
+			document.getElementsByName("hidden[]")[seq-1].value=0
+		}else{
+			document.getElementById('tableID'+array[0]).style.backgroundColor='#D9E5FF';
+			document.getElementsByName("hidden[]")[seq-1].value=1;
 		}
-		console.log(item.length);
-		console.log(typeof item);
+// 		let item=document.getElementsByName("writer[]");
+// 		for(var i=0; i<item.length; i++){
+// 			console.log("i의값:"+i+" item:"+item[i].value);
+// 		}
+	}
+	function formarray(array){
+		let form = document.createElement("form");
+        form.setAttribute("id", "form");
+        form.setAttribute("method", "Post");  //Post 방식
+        form.setAttribute("action", "/array"); //요청 보낼 주소
+        let hiddenField='';
+        for(let i=0;i<array.length;i++){
+			console.log("i의값");
+        }
+        hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", "bno[]");
+//         hiddenField.setAttribute("value", mName);
+        form.appendChild(hiddenField);
+
+	}
+	function updateForm(){
+// 		let out='';
+// 		out+="<form id='postSend'>";
+// 		out+="<input name='bno[]' type='text'/>" 
+// 		out+="<input name='writer[]' type='text'/>" 
+// 		out+="<input name='title[]' type='text'/>" 
+// 		out+="<input name='content[]' type='text'/>" 
+// 		out+="<input name='viewcnt[]' type='text'/>" 
+// 		out+="</form>"
+		
+        
+		form=formarray(['bno','writer','title','content','viewcnt']);
+        let hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", "bno[]");
+//         hiddenField.setAttribute("value", mName);
+        form.appendChild(hiddenField);
+
+        hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", "title[]");
+//         hiddenField.setAttribute("value", mEmail);
+        form.appendChild(hiddenField);
+        
+        hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", "content[]");
+//         hiddenField.setAttribute("value", mEmail);
+        form.appendChild(hiddenField);
+
+        document.body.appendChild(form);
+
+//         form.submit();
+// 		console.log(out);
+		let item=document.getElementsByName("hidden[]");
+		for(var i=0; i<item.length; i++){
+			if(item[i].value==1){
+				console.log(document.getElementsByName("bno[]")[i].value);
+				console.log(document.getElementsByName("writer[]")[i].value);
+				console.log(document.getElementsByName("title[]")[i].value);
+				console.log(document.getElementsByName("content[]")[i].value);
+				console.log(document.getElementsByName("viewcnt[]")[i].value);
+// 				console.log("i의값:"+i+" hidden:"+item[i].value);
+			}
+		}
 	}
 	function jsondata(data) {
 		//		console.log(Object.keys(data).length);
