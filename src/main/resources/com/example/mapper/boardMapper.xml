@@ -31,9 +31,11 @@
 		join member b on a.memberBno=b.bno;
 	</select>
 
-	<update id="arrayUpdate" parameterType="map">
-		<foreach collection="map" item="item" index="index" open="" close="" separator=";">
-			update board set title=#{item.title}, content=#{item.content}, writer=#{item.writer}, viewcnt=#{item.viewcnt} where bno=#{item.bno}
-		</foreach>
+<!-- 	<update id="arrayUpdate" parameterType="hashmap"> -->
+	<update id="arrayUpdate" parameterType="com.example.dto.board">
+<!-- 		<foreach collection="map" item="item" index="index" open="" close="" separator=";"> -->
+<!-- 			update board set title=#{item.title}, content=#{item.content}, writer=#{item.writer}, viewcnt=#{item.viewcnt} where bno=#{item.bno} -->
+			update board set title=#{title}, content=#{content}, writer=#{writer}, viewcnt=#{viewcnt} where bno=#{bno}
+<!-- 		</foreach> -->
 	</update>
 </mapper>

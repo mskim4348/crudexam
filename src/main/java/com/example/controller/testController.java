@@ -36,7 +36,6 @@ public class testController {
 	}
 	
 	@PostMapping("/array")
-	@ResponseBody
 	public String testarray(@RequestParam("bno") int [] bno, @RequestParam("title") String [] title,
 	@RequestParam("writer") String [] writer, @RequestParam("content") String [] content, @RequestParam("viewcnt") int [] viewcnt) {
 		board board=new board();
@@ -47,8 +46,9 @@ public class testController {
 			board.setContent(content[i]);
 			board.setWriter(writer[i]);
 			board.setViewcnt(viewcnt[i]);
-			map.put(""+i, board);
-			board=new board();
+//			map.put(""+i, board);
+//			board=new board();
+			boardservice.arrayUpdate(board);
 		}
 		board=null;
 //		System.out.println(board);
@@ -57,8 +57,8 @@ public class testController {
 //			Object value = entry.getValue();
 //			System.out.println("key: " + key + " | value: " + value);
 //		}
-		boardservice.arrayUpdate(map);
+//		boardservice.arrayUpdate(map);
 //		System.out.println(map.size());
-		return "";
+		return "redirect:/test/list";
 	}
 }
