@@ -49,21 +49,29 @@
 				<c:forEach items="${board}" var="board" varStatus="status">
 					<tr id="tableID${board.bno}">
 						<th>${status.count}</th>
-<%-- 						<th><input type="text" id=writer${status.count} value=${board.writer} onchange="change(${status.count},['${board.bno},${board.writer}','${board.title}','${board.content}','${board.viewcnt}'])"></th> --%>
-<!-- 						<th><input type="text" id=title${status.count} value=${board.title} onchange="change()"></th> -->
-<!-- 						<th><input type="text" id=content${status.count} value=${board.content} onchange="change()"></th> -->
-<!-- 						<th><input type="text" id=viewcnt${status.count} value=${board.viewcnt} onchange="change()"></th> -->
+						<%-- <th><input type="text" id=writer${status.count} value=${board.writer} onchange="change(${status.count},['${board.bno},${board.writer}','${board.title}','${board.content}','${board.viewcnt}'])"></th> --%>
+						<!-- <th><input type="text" id=title${status.count} value=${board.title} onchange="change()"></th> -->
+						<!-- <th><input type="text" id=content${status.count} value=${board.content} onchange="change()"></th> -->
+						<!-- <th><input type="text" id=viewcnt${status.count} value=${board.viewcnt} onchange="change()"></th> -->
 						<th><input type="text" name=writer[] value=${board.writer} onchange="change(${status.count},['${board.bno}','${board.writer}','${board.title}','${board.content}','${board.viewcnt}'])"></th>
 						<th><input type="text" name=title[] value=${board.title} onchange="change(${status.count},['${board.bno}','${board.writer}','${board.title}','${board.content}','${board.viewcnt}'])"></th>
 						<th><input type="text" name=content[] value=${board.content} onchange="change(${status.count},['${board.bno}','${board.writer}','${board.title}','${board.content}','${board.viewcnt}'])"></th>
 						<th><input type="text" name=viewcnt[] value=${board.viewcnt} onchange="change(${status.count},['${board.bno}','${board.writer}','${board.title}','${board.content}','${board.viewcnt}'])"></th>
 					</tr>
-						<input type="hidden" name=hidden[] value=0>
-						<input type="hidden" name=bno[] value=${board.bno}>
+					<input type="hidden" name=hidden[] value=0>
+					<input type="hidden" name=bno[] value=${board.bno}>
 				</c:forEach>
 			</tbody>
 		</table>
-	 	<button type="button"  style="float: right;" class="btn btn-primary" onclick="updateForm()">update</button>
+		<button type="button" style="float: right;" class="btn btn-primary"
+			onclick="updateForm()">update</button>
+			<form id="array_send" action="/array" method="post" enctype='multipart/form-data'>
+				<input type="hidden" name=bno_post[] value=''>
+				<input type="hidden" name=writer_post[] value=''>
+				<input type="hidden" name=title_post[] value=''>
+				<input type="hidden" name=content_post[] value=''>
+				<input type="hidden" name=viewcnt_post[] value=''>
+			</form>
 	</div>
 	<div class="container mt-5">
 		<div class="row">
@@ -112,65 +120,59 @@
 	}
 	function formarray(array){
 		let form = document.createElement("form");
-        form.setAttribute("id", "form");
+        form.setAttribute("id", "array");
+        form.setAttribute("name", "array");
         form.setAttribute("method", "Post");  //Post 방식
-        form.setAttribute("action", "/array"); //요청 보낼 주소
+        form.setAttribute("action", "/test/array"); //요청 보낼 주소
+        form.setAttribute("enctype", "/multipart/form-data");
         let hiddenField='';
         for(let i=0;i<array.length;i++){
-			console.log("i의값");
+	        hiddenField = document.createElement("input");
+	        hiddenField.setAttribute("type", "hidden");
+	        hiddenField.setAttribute("name", "bno");
+	        hiddenField.setAttribute("value", document.getElementsByName("bno[]")[i].value);
+	        form.appendChild(hiddenField);
+	        hiddenField = document.createElement("input");
+	        hiddenField.setAttribute("type", "hidden");
+	        hiddenField.setAttribute("name", "writer");
+	        hiddenField.setAttribute("value", document.getElementsByName("writer[]")[i].value);
+	        form.appendChild(hiddenField);
+	        hiddenField = document.createElement("input");
+	        hiddenField.setAttribute("type", "hidden");
+	        hiddenField.setAttribute("name", "title");
+	        hiddenField.setAttribute("value", document.getElementsByName("title[]")[i].value);
+	        form.appendChild(hiddenField);
+	        hiddenField = document.createElement("input");
+	        hiddenField.setAttribute("type", "hidden");
+	        hiddenField.setAttribute("name", "content");
+	        hiddenField.setAttribute("value", document.getElementsByName("content[]")[i].value);
+	        form.appendChild(hiddenField);
+	        hiddenField = document.createElement("input");
+	        hiddenField.setAttribute("type", "hidden");
+	        hiddenField.setAttribute("name", "viewcnt");
+	        hiddenField.setAttribute("value", document.getElementsByName("viewcnt[]")[i].value);
+	        form.appendChild(hiddenField);
         }
-        hiddenField = document.createElement("input");
-        hiddenField.setAttribute("type", "hidden");
-        hiddenField.setAttribute("name", "bno[]");
-//         hiddenField.setAttribute("value", mName);
-        form.appendChild(hiddenField);
-
+        return form;
 	}
 	function updateForm(){
-// 		let out='';
-// 		out+="<form id='postSend'>";
-// 		out+="<input name='bno[]' type='text'/>" 
-// 		out+="<input name='writer[]' type='text'/>" 
-// 		out+="<input name='title[]' type='text'/>" 
-// 		out+="<input name='content[]' type='text'/>" 
-// 		out+="<input name='viewcnt[]' type='text'/>" 
-// 		out+="</form>"
-		
-        
-		form=formarray(['bno','writer','title','content','viewcnt']);
-        let hiddenField = document.createElement("input");
-        hiddenField.setAttribute("type", "hidden");
-        hiddenField.setAttribute("name", "bno[]");
-//         hiddenField.setAttribute("value", mName);
-        form.appendChild(hiddenField);
-
-        hiddenField = document.createElement("input");
-        hiddenField.setAttribute("type", "hidden");
-        hiddenField.setAttribute("name", "title[]");
-//         hiddenField.setAttribute("value", mEmail);
-        form.appendChild(hiddenField);
-        
-        hiddenField = document.createElement("input");
-        hiddenField.setAttribute("type", "hidden");
-        hiddenField.setAttribute("name", "content[]");
-//         hiddenField.setAttribute("value", mEmail);
-        form.appendChild(hiddenField);
-
-        document.body.appendChild(form);
-
-//         form.submit();
-// 		console.log(out);
 		let item=document.getElementsByName("hidden[]");
-		for(var i=0; i<item.length; i++){
+		let array=[];
+		for(let i=0; i<item.length; i++){
 			if(item[i].value==1){
-				console.log(document.getElementsByName("bno[]")[i].value);
-				console.log(document.getElementsByName("writer[]")[i].value);
-				console.log(document.getElementsByName("title[]")[i].value);
-				console.log(document.getElementsByName("content[]")[i].value);
-				console.log(document.getElementsByName("viewcnt[]")[i].value);
-// 				console.log("i의값:"+i+" hidden:"+item[i].value);
+				array.push(i);
 			}
 		}
+// 				document.getElementsByName("bno_post[]")[count].value=document.getElementsByName("bno[]")[i].value;
+// 				document.getElementsByName("writer_post[]")[count].value=document.getElementsByName("writer[]")[i].value;
+// 				document.getElementsByName("title_post[]")[count].value=document.getElementsByName("title[]")[i].value;
+// 				document.getElementsByName("content_post[]")[count].value=document.getElementsByName("content[]")[i].value;
+// 				document.getElementsByName("viewcnt_post[]")[count].value=document.getElementsByName("viewcnt[]")[i].value;
+		
+		let form=formarray(array);
+		console.log(form);
+		document.body.appendChild(form);
+        form.submit();
 	}
 	function jsondata(data) {
 		//		console.log(Object.keys(data).length);

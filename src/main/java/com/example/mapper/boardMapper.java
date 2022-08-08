@@ -15,4 +15,5 @@ public interface boardMapper {
 	public int delete(@Param("seq") int seq);
 //	public HashMap<String, Object> onelist(@Param("seq") int seq);
 	public List<Map<String, Object>> jointest();
+	public int arrayUpdate(Map<String, Object> map);
 }

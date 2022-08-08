@@ -6,24 +6,34 @@
 	<select id="list" resultType="com.example.dto.board">
 		select * from board;
 	</select>
-	
+
 	<insert id="insert" parameterType="com.example.dto.board">
-			insert into board (bno,title,content,writer,viewcnt) values(nextval('boardSeq'),#{title},#{content},#{writer},0);
+		insert into board
+		(bno,title,content,writer,viewcnt)
+		values(nextval('boardSeq'),#{title},#{content},#{writer},0);
 	</insert>
-	
+
 	<update id="update" parameterType="com.example.dto.board">
-		update board set 
-			title=#{title},
-			content=#{content},
-			writer=#{writer}
-			where bno=#{bno};
+		update board set
+		title=#{title},
+		content=#{content},
+		writer=#{writer}
+		where bno=#{bno};
 	</update>
-	
+
 	<delete id="delete" parameterType="int">
-		delete from board where bno=${seq};
-	</delete>	
+		delete from board where
+		bno=${seq};
+	</delete>
 
 	<select id="jointest" resultType="map">
-		select * from board a right join member b on a.memberBno=b.bno;
+		select * from board a right
+		join member b on a.memberBno=b.bno;
 	</select>
+
+	<update id="arrayUpdate" parameterType="map">
+		<foreach collection="map" item="item" index="index" open="" close="" separator=";">
+			update board set title=#{item.title}, content=#{item.content}, writer=#{item.writer}, viewcnt=#{item.viewcnt} where bno=#{item.bno}
+		</foreach>
+	</update>
 </mapper>

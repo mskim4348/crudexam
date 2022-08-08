@@ -54,4 +54,8 @@ public class boardServiceImpl implements boardService{
 		
 		return 0;
 	}
+	@Override
+	public int arrayUpdate(Map<String, Object> map) {
+		return mapper.arrayUpdate(map);
+	}
 }

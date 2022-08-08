@@ -15,4 +15,5 @@ public interface boardService {
 //	public HashMap<String, Object> onelist(int seq);
 	public List<Map<String, Object>> jointest();
 	public int insertImage(MultipartFile file);
+	public int arrayUpdate(Map<String, Object> map);
 }
